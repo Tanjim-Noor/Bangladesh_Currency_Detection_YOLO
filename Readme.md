@@ -14,28 +14,36 @@ This project implements a **custom object detection system** for recognizing Ban
 - **Dataset Link**: [https://universe.roboflow.com/tanvirtain/bangladeshi-currency-detection/dataset/3](https://universe.roboflow.com/tanvirtain/bangladeshi-currency-detection/dataset/3)
 - **License**: CC BY 4.0
 
-### Classes (11 categories)
+### Dataset Information
+
+**Original Dataset:** ~1,770 images with 11 classes
+
+**Data Filtering:** Excludes underrepresented classes for better model performance
+- **Excluded Classes:** 
+  - Five Hundred taka (only 1 sample - insufficient for training)
+  - currency (71 samples - generic class)
+- **Final Classes:** 9 denominations
+
+### Classes (9 categories - After Filtering)
 | ID | Class Name |
 |----|------------|
 | 0 | 500 taka |
 | 1 | Fifty taka |
-| 2 | Five Hundred taka |
-| 3 | Five Taka |
-| 4 | One Taka |
-| 5 | One Thousand taka |
-| 6 | Ten Taka |
-| 7 | Twenty |
-| 8 | currency |
-| 9 | one hundred taka |
-| 10 | two taka |
+| 2 | Five Taka |
+| 3 | One Taka |
+| 4 | One Thousand taka |
+| 5 | Ten Taka |
+| 6 | Twenty |
+| 7 | one hundred taka |
+| 8 | two taka |
 
-### Dataset Split
+### Dataset Split (After Filtering)
 | Split | Images | Percentage |
 |-------|--------|------------|
-| Training | ~1,426 | 80% |
-| Validation | ~166 | 10% |
-| Test | ~178 | 10% |
-| **Total** | **~1,770** | 100% |
+| Training | ~1,434 | 80% |
+| Validation | ~178 | 10% |
+| Test | ~179 | 10% |
+| **Total** | **~1,791** | 100% |
 
 ---
 
@@ -85,11 +93,13 @@ Assignment/
 | Parameter | Value |
 |-----------|-------|
 | Epochs | 50 |
-| Batch Size | 16 |
+| Batch Size | 8 |
 | Image Size | 640×640 |
 | Optimizer | AdamW (auto) |
 | Learning Rate | 0.01 (initial) |
 | Device | GPU (CUDA) |
+| Classes | 9 (filtered dataset) |
+| Dataset | Filtered (excluded underrepresented classes) |
 
 ### YOLOv12 Features
 - ✅ Attention-centric architecture for better feature extraction
@@ -141,14 +151,13 @@ pip install matplotlib pillow numpy pyyaml
 
 ## 📝 Assignment Tasks Completed
 
-| Task | Marks | Status |
-|------|-------|--------|
-| 1. Dataset Collection | 20 | ✅ Complete |
-| 2. Data Annotation & Preparation | 20 | ✅ Complete |
-| 3. Model Training | 30 | ✅ Complete |
-| 4. Model Evaluation | 20 | ✅ Complete |
-| 5. Results & Submission | 10 | ✅ Complete |
-| **Total** | **100** | ✅ |
+| Task | Status |
+|------|--------|
+| 1. Dataset Collection | ✅ Complete |
+| 2. Data Annotation & Preparation | ✅ Complete |
+| 3. Model Training | ✅ Complete |
+| 4. Model Evaluation | ✅ Complete |
+| 5. Results & Submission | ✅ Complete |
 
 ---
 
