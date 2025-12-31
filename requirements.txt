@@ -1,0 +1,7 @@
+ultralytics
+supervision
+matplotlib
+numpy
+Pillow
+pyyaml
+ipykernel
