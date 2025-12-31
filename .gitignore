@@ -1,2 +1,5 @@
 data/
 data_filtered/
+yolo11n.pt
+yolo12n.pt
+yolo12m.pt
