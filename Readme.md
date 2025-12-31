@@ -16,15 +16,58 @@ This project implements a **custom object detection system** for recognizing Ban
 
 ### Dataset Information
 
-**Original Dataset:** ~1,770 images with 11 classes
+#### Original Dataset (Before Filtering)
+- **Total Images**: 1,523
+- **Number of Classes**: 11
 
-**Data Filtering:** Excludes underrepresented classes for better model performance
-- **Excluded Classes:** 
-  - Five Hundred taka (only 1 sample - insufficient for training)
-  - currency (71 samples - generic class)
-- **Final Classes:** 9 denominations
+| Split | Images | Percentage |
+|-------|--------|------------|
+| Training | 1,166 | 76.6% |
+| Validation | 168 | 11.0% |
+| Test | 189 | 12.4% |
 
-### Classes (9 categories - After Filtering)
+#### Original Class Distribution (Training Set)
+| Class Name | Count | Issue |
+|------------|-------|-------|
+| 500 taka | 129 | ✅ Good representation |
+| Fifty taka | 335 | ✅ Good representation |
+| **Five Hundred taka** | **1** | ❌ **EXCLUDED** - Only 1 sample, insufficient for training |
+| Five Taka | 478 | ✅ Good representation |
+| One Taka | 236 | ✅ Good representation |
+| One Thousand taka | 194 | ✅ Good representation |
+| Ten Taka | 361 | ✅ Good representation |
+| Twenty | 408 | ✅ Good representation |
+| **currency** | **71** | ❌ **EXCLUDED** - Generic class causing confusion |
+| one hundred taka | 435 | ✅ Good representation |
+| two taka | 355 | ✅ Good representation |
+
+#### Why Filtering Was Done
+
+The filtering process was essential for improving model performance:
+
+1. **Insufficient Training Data**: The "Five Hundred taka" class had only **1 sample**, which is far too small to train a robust detector. Neural networks require hundreds of examples per class to learn meaningful patterns.
+
+2. **Generic/Confusing Class**: The "currency" class was too generic and overlapped with other specific denominations, causing the model to learn ambiguous patterns and reducing overall accuracy.
+
+3. **No Image Removal**: Importantly, **no complete images were removed**. Most images contained multiple currency denominations. The filtering only removed annotations for the problematic classes:
+   - Train: 72 annotations removed (images retained)
+   - Valid: 37 annotations removed (images retained)
+   - Test: 26 annotations removed (images retained)
+
+This approach maintains the dataset's size while ensuring the model trains only on reliable, well-represented classes.
+
+#### Filtered Dataset (After Filtering)
+- **Total Images**: 1,523 (No images removed, only annotations cleaned)
+- **Number of Classes**: 9 (2 classes excluded)
+- **Annotations Removed**: 135 total (72 train, 37 valid, 26 test)
+
+| Split | Images | Percentage |
+|-------|--------|------------|
+| Training | 1,166 | 76.6% |
+| Validation | 168 | 11.0% |
+| Test | 189 | 12.4% |
+
+### Classes (9 Categories - After Filtering)
 | ID | Class Name |
 |----|------------|
 | 0 | 500 taka |
@@ -36,14 +79,6 @@ This project implements a **custom object detection system** for recognizing Ban
 | 6 | Twenty |
 | 7 | one hundred taka |
 | 8 | two taka |
-
-### Dataset Split (After Filtering)
-| Split | Images | Percentage |
-|-------|--------|------------|
-| Training | ~1,434 | 80% |
-| Validation | ~178 | 10% |
-| Test | ~179 | 10% |
-| **Total** | **~1,791** | 100% |
 
 ---
 
