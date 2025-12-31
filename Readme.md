@@ -169,10 +169,3 @@ pip install matplotlib pillow numpy pyyaml
 4. [YOLOv12 Training Guide](https://blog.roboflow.com/train-yolov12-model/)
 
 ---
-
-## 👤 Author
-**Student Assignment - Model Finetuning & Intro to Transformers**
-
----
-
-*Last Updated: December 2024*
