@@ -1,1 +1,53 @@
+# =============================================================================
+# Bangladeshi Taka Detection API - Environment Variables Template
+# =============================================================================
+# Copy this file to .env and configure as needed
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Model Configuration
+# -----------------------------------------------------------------------------
+
+# Path to the trained YOLO model weights file
+MODEL_PATH=/app/model_weights/best.pt
+
+# Default confidence threshold for detections (0.0 - 1.0)
+# Lower values = more detections (including false positives)
+# Higher values = fewer but more confident detections
+CONFIDENCE_THRESHOLD=0.25
+
+# Input image size for the model (pixels)
+# Default is 640x640 as used in training
+IMAGE_SIZE=640
+
+# -----------------------------------------------------------------------------
+# API Server Configuration
+# -----------------------------------------------------------------------------
+
+# Host address to bind the API server
+# Use 0.0.0.0 for Docker containers to accept external connections
+API_HOST=0.0.0.0
+
+# Port number for the API server
+API_PORT=8000
+
+# Maximum allowed image upload size in megabytes
+MAX_IMAGE_SIZE_MB=10
+
+# -----------------------------------------------------------------------------
+# Logging Configuration
+# -----------------------------------------------------------------------------
+
+# Log level: DEBUG, INFO, WARNING, ERROR, CRITICAL
+LOG_LEVEL=INFO
+
+# -----------------------------------------------------------------------------
+# Performance Configuration (Optional)
+# -----------------------------------------------------------------------------
+
+# Number of worker processes for uvicorn
+# WORKERS=1
+
+# Request timeout in seconds
+# REQUEST_TIMEOUT=60
 

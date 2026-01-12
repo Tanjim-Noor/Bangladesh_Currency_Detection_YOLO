@@ -5,3 +5,11 @@ numpy
 Pillow
 pyyaml
 ipykernel
+# Phase 2: REST API dependencies
+fastapi
+uvicorn[standard]
+python-multipart
+
+# Phase 2: Testing dependencies
+pytest
+httpx

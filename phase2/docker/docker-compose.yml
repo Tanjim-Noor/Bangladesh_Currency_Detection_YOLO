@@ -1,1 +1,51 @@
+# =============================================================================
+# Bangladeshi Taka Detection API - Docker Compose
+# =============================================================================
+# Service orchestration for the currency detection API
+# =============================================================================
+
+name: bd-currency-detection-api
+services:
+  bd-taka-api:
+    build:
+      context: ../..
+      dockerfile: phase2/docker/Dockerfile
+    container_name: bd-taka-detector
+    image: bd-taka-detector:latest
+    ports:
+      - "8000:8000"
+    environment:
+      - MODEL_PATH=/app/model_weights/best.pt
+      - CONFIDENCE_THRESHOLD=0.25
+      - API_HOST=0.0.0.0
+      - API_PORT=8000
+      - MAX_IMAGE_SIZE_MB=10
+    volumes:
+      # Mount model weights for easy updates without rebuilding
+      - ../model_weights:/app/model_weights:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    restart: unless-stopped
+    
+    # Resource limits (optional, uncomment if needed)
+    # deploy:
+    #   resources:
+    #     limits:
+    #       cpus: '2.0'
+    #       memory: 4G
+    #     reservations:
+    #       cpus: '1.0'
+    #       memory: 2G
+
+# =============================================================================
+# Usage:
+#   Build:  docker-compose build
+#   Start:  docker-compose up -d
+#   Stop:   docker-compose down
+#   Logs:   docker-compose logs -f bd-taka-api
+# =============================================================================
 

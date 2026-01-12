@@ -2,9 +2,49 @@
 
 ## 📋 Phase 2 Overview
 
-Phase 2 focuses on deploying the Phase 1 trained model as a production-ready REST API with Docker containerization and comprehensive deployment documentation. This phase transforms the training artifacts into a scalable, accessible service.
+Phase 2 deploys the Phase 1 trained YOLOv12 model as a production-ready REST API with Docker containerization and comprehensive documentation. This phase transforms the training artifacts into a scalable, accessible service for detecting 9 Bangladeshi Taka currency denominations.
 
-**Status:** 🔄 IN PREPARATION (Structure ready, implementation to follow)
+**Status:** ✅ IMPLEMENTED
+
+---
+
+## 🚀 Quick Start
+
+### Option 1: Run Locally (Development)
+
+```bash
+# Navigate to project root
+cd Bangladesh_Currency_Detection_YOLO
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Navigate to phase2 directory
+cd phase2
+
+# Start the API server
+uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+### Option 2: Run with Docker
+
+```bash
+# Navigate to phase2/docker directory
+cd phase2/docker
+
+# Build and start the container
+docker-compose up --build
+
+# Or build and run manually
+docker build -t bd-taka-detector -f phase2/docker/Dockerfile .
+docker run -p 8000:8000 bd-taka-detector
+```
+
+### Access the API
+
+- **API Documentation (Swagger):** http://localhost:8000/docs
+- **Health Check:** http://localhost:8000/health
+- **Predict Endpoint:** POST http://localhost:8000/predict
 
 ---
 
@@ -16,38 +56,252 @@ phase2/
 │
 ├── model_weights/                    # Production model files
 │   ├── best.pt                       # ⭐ Fine-tuned model (from Phase 1)
-│   ├── yolo12m.pt                    # Pre-trained baseline
-│   └── yolo12n.pt                    # Pre-trained baseline
+│   ├── last.pt                       # Last training checkpoint
+│   ├── yolo12m.pt                    # Pre-trained baseline (medium)
+│   └── yolo12n.pt                    # Pre-trained baseline (nano)
 │
 ├── api/                              # REST API implementation
-│   ├── main.py                       # FastAPI application (TO CREATE)
-│   ├── models.py                     # Pydantic data models (TO CREATE)
-│   ├── detector.py                   # YOLO inference wrapper (TO CREATE)
-│   ├── config.py                     # Configuration settings (TO CREATE)
-│   ├── __init__.py                   # Package initialization (TO CREATE)
-│   └── utils/                        # Helper functions (TO CREATE)
-│       ├── __init__.py
-│       └── preprocessing.py          # Image preprocessing
+│   ├── __init__.py                   # Package initialization
+│   ├── main.py                       # FastAPI application with endpoints
+│   ├── schemas.py                    # Pydantic request/response models
+│   ├── detector.py                   # YOLO inference wrapper class
+│   └── config.py                     # Configuration and settings
 │
 ├── docker/                           # Containerization
-│   ├── Dockerfile                    # Container image (TO CREATE)
-│   ├── docker-compose.yml            # Multi-container setup (TO CREATE)
-│   ├── .dockerignore                 # Build optimization (TO CREATE)
-│   └── entrypoint.sh                 # Container startup (TO CREATE)
+│   ├── Dockerfile                    # Multi-stage container build
+│   ├── docker-compose.yml            # Service orchestration
+│   └── .dockerignore                 # Build context exclusions
 │
 ├── tests/                            # Test suite
-│   ├── test_api.py                   # API endpoint tests (TO CREATE)
-│   ├── test_detector.py              # Detection logic tests (TO CREATE)
-│   ├── test_models.py                # Data model tests (TO CREATE)
-│   ├── conftest.py                   # pytest configuration (TO CREATE)
-│   └── sample_images/                # Test images (TO CREATE)
-│       ├── taka_50.jpg
-│       ├── taka_100.jpg
-│       └── multiple_notes.jpg
+│   ├── __init__.py                   # Test package initialization
+│   ├── conftest.py                   # Pytest fixtures and configuration
+│   ├── test_api.py                   # API endpoint tests
+│   ├── test_detector.py              # Detector unit tests
+│   └── test_images/                  # Sample test images
 │
 ├── deployment/                       # Deployment documentation
-│   ├── DEPLOYMENT.md                 # Deployment guide (TO CREATE)
-│   ├── API_DOCUMENTATION.md          # API endpoints reference (TO CREATE)
+│   └── ENV_TEMPLATE                  # Environment variables template
+│
+└── docs/                             # Additional documentation
+    └── API_DOCUMENTATION.md          # Detailed API reference
+```
+
+---
+
+## 🔌 API Endpoints
+
+### GET / - API Information
+Returns API metadata and available endpoints.
+
+```bash
+curl http://localhost:8000/
+```
+
+**Response:**
+```json
+{
+  "name": "Bangladeshi Taka Detection API",
+  "version": "1.0.0",
+  "description": "REST API for detecting Bangladeshi currency notes using YOLOv12",
+  "endpoints": {
+    "GET /": "API information",
+    "GET /health": "Health check",
+    "POST /predict": "Detect currency in uploaded image"
+  },
+  "model_info": {...}
+}
+```
+
+### GET /health - Health Check
+Check API health status and model availability.
+
+```bash
+curl http://localhost:8000/health
+```
+
+**Response:**
+```json
+{
+  "status": "healthy",
+  "model_loaded": true
+}
+```
+
+### POST /predict - Currency Detection
+Upload an image to detect Bangladeshi Taka currency notes.
+
+**Parameters:**
+- `file` (required): Image file (JPEG or PNG)
+- `confidence` (optional): Confidence threshold (0.0-1.0, default: 0.25)
+- `return_annotated` (optional): Return annotated image (default: false)
+
+**curl Example:**
+```bash
+curl -X POST "http://localhost:8000/predict" \
+  -H "accept: application/json" \
+  -H "Content-Type: multipart/form-data" \
+  -F "file=@test_image.jpg"
+```
+
+**Response:**
+```json
+{
+  "success": true,
+  "detections": [
+    {
+      "class_id": 7,
+      "class_name": "one hundred taka",
+      "denomination": "৳100",
+      "confidence": 0.9234,
+      "bbox": {
+        "x1": 120.5,
+        "y1": 85.3,
+        "x2": 450.2,
+        "y2": 320.8
+      }
+    }
+  ],
+  "count": 1,
+  "image_size": {"width": 640, "height": 480},
+  "processing_time_ms": 45.2
+}
+```
+
+---
+
+## 💵 Supported Denominations
+
+| Class ID | Class Name | Denomination |
+|:--------:|:-----------|:-------------|
+| 0 | 500 taka | ৳500 |
+| 1 | Fifty taka | ৳50 |
+| 2 | Five Taka | ৳5 |
+| 3 | One Taka | ৳1 |
+| 4 | One Thousand taka | ৳1000 |
+| 5 | Ten Taka | ৳10 |
+| 6 | Twenty | ৳20 |
+| 7 | one hundred taka | ৳100 |
+| 8 | two taka | ৳2 |
+
+---
+
+## 🐳 Docker Commands
+
+### Build the Image
+```bash
+# From project root
+docker build -t bd-taka-detector -f phase2/docker/Dockerfile .
+```
+
+### Run the Container
+```bash
+# Basic run
+docker run -p 8000:8000 bd-taka-detector
+
+# Run with custom environment variables
+docker run -p 8000:8000 \
+  -e CONFIDENCE_THRESHOLD=0.3 \
+  -e MAX_IMAGE_SIZE_MB=20 \
+  bd-taka-detector
+
+# Run in detached mode
+docker run -d -p 8000:8000 --name taka-api bd-taka-detector
+```
+
+### Using Docker Compose
+```bash
+cd phase2/docker
+
+# Build and start
+docker-compose up --build
+
+# Start in background
+docker-compose up -d
+
+# View logs
+docker-compose logs -f bd-taka-api
+
+# Stop
+docker-compose down
+```
+
+---
+
+## 🧪 Running Tests
+
+```bash
+# Navigate to phase2 directory
+cd phase2
+
+# Run all tests
+pytest tests/ -v
+
+# Run specific test file
+pytest tests/test_api.py -v
+
+# Run with coverage
+pytest tests/ -v --cov=api
+
+# Run tests with detailed output
+pytest tests/ -v --tb=short
+```
+
+---
+
+## ⚙️ Environment Variables
+
+| Variable | Default | Description |
+|:---------|:--------|:------------|
+| `MODEL_PATH` | `model_weights/best.pt` | Path to YOLO model weights |
+| `CONFIDENCE_THRESHOLD` | `0.25` | Detection confidence threshold |
+| `IMAGE_SIZE` | `640` | Input image size (pixels) |
+| `API_HOST` | `0.0.0.0` | API server host |
+| `API_PORT` | `8000` | API server port |
+| `MAX_IMAGE_SIZE_MB` | `10` | Maximum upload size |
+
+See [deployment/ENV_TEMPLATE](deployment/ENV_TEMPLATE) for all available options.
+
+---
+
+## 📊 Error Handling
+
+The API returns consistent error responses:
+
+**400 Bad Request** - Invalid input
+```json
+{
+  "success": false,
+  "error": "Invalid image format: text/plain. Supported: JPEG, PNG",
+  "detail": null
+}
+```
+
+**422 Unprocessable Entity** - Validation error
+```json
+{
+  "detail": [{"loc": ["query", "confidence"], "msg": "...", "type": "..."}]
+}
+```
+
+**500 Internal Server Error** - Server error
+```json
+{
+  "success": false,
+  "error": "Prediction failed: ...",
+  "detail": null
+}
+```
+
+---
+
+## 🔗 Related Resources
+
+- **Phase 1 Documentation:** [../phase1/README_PHASE1.md](../phase1/README_PHASE1.md)
+- **Training Notebook:** [../phase1/training/bangladeshi_taka_detection_yolov12.ipynb](../phase1/training/bangladeshi_taka_detection_yolov12.ipynb)
+- **Project Index:** [../INDEX.md](../INDEX.md)
+- **FastAPI Docs:** https://fastapi.tiangolo.com/
+- **Ultralytics YOLO:** https://docs.ultralytics.com/
+
 │   ├── TROUBLESHOOTING.md            # Common issues (TO CREATE)
 │   ├── ENV_TEMPLATE                  # Environment variables (TO CREATE)
 │   ├── kubernetes/                   # K8s configs (optional)
