@@ -1,0 +1,7 @@
+
+train: d:\Study\Ostad\11. Model Finetuning & Intro to Transformers\Assignment\data_filtered\train\images
+val: d:\Study\Ostad\11. Model Finetuning & Intro to Transformers\Assignment\data_filtered\valid\images
+test: d:\Study\Ostad\11. Model Finetuning & Intro to Transformers\Assignment\data_filtered\test\images
+
+nc: 9
+names: ['500 taka', 'Fifty taka', 'Five Taka', 'One Taka', 'One Thousand taka', 'Ten Taka', 'Twenty', 'one hundred taka', 'two taka']

@@ -1,0 +1,13 @@
+train: ../train/images
+val: ../valid/images
+test: ../test/images
+
+nc: 11
+names: ['500 taka', 'Fifty taka', 'Five Hundred taka', 'Five Taka', 'One Taka', 'One Thousand taka', 'Ten Taka', 'Twenty', 'currency', 'one hundred taka', 'two taka']
+
+roboflow:
+  workspace: tanvirtain
+  project: bangladeshi-currency-detection
+  version: 3
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/tanvirtain/bangladeshi-currency-detection/dataset/3
