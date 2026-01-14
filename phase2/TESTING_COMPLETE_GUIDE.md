@@ -1,11 +1,11 @@
 # API Testing & Validation - Complete Step-by-Step Guide
 
-## 📋 Overview
+## Overview
 This guide provides complete instructions to test the Bangladeshi Taka Detection API running in Docker. You'll run commands, capture screenshots, and document results for submission.
 
 ---
 
-## ✅ STEP 1: Verify Docker Container is Running
+## STEP 1: Verify Docker Container is Running
 
 > 💡 **Windows PowerShell note:** If you're running these commands in PowerShell, use `curl.exe` (instead of `curl`) to avoid PowerShell's `curl` alias interfering with flags like `-X` and `-F`. Example: `curl.exe -X POST -F "file=@path/to/image.jpg" "http://localhost:8000/predict"`.
 
@@ -24,7 +24,7 @@ Take a screenshot showing the container is running and healthy.
 
 ---
 
-## ✅ STEP 2: Test Health Endpoint (Health Check)
+## STEP 2: Test Health Endpoint (Health Check)
 
 ### Command:
 ```bash
@@ -40,16 +40,16 @@ curl http://localhost:8000/health
 ```
 
 ### What to Verify:
-- ✅ Status is "healthy"
-- ✅ Model is loaded (true)
-- ✅ Response time should be <100ms
+- [OK] Status is "healthy"
+- [OK] Model is loaded (true)
+- [OK] Response time should be <100ms
 
 ### Screenshot To Take:
 Capture the terminal showing the health check response.
 
 ---
 
-## ✅ STEP 3: Test Root Endpoint (API Metadata)
+## STEP 3: Test Root Endpoint (API Metadata)
 
 ### Command:
 ```bash
@@ -68,16 +68,16 @@ curl http://localhost:8000/
 ```
 
 ### What to Verify:
-- ✅ API name and version are correct
-- ✅ All endpoints are listed
-- ✅ Model info shows 9 classes
+- [OK] API name and version are correct
+- [OK] All endpoints are listed
+- [OK] Model info shows 9 classes
 
 ### Screenshot To Take:
 Capture showing API metadata returned.
 
 ---
 
-## ✅ STEP 4-9: Test with 6 Different Test Images
+## STEP 4-9: Test with 6 Different Test Images
 
 ### Available Test Images:
 
@@ -198,7 +198,7 @@ Capture 10 Taka results.
 
 ---
 
-## ✅ STEP 10: Test with Annotated Image
+## STEP 10: Test with Annotated Image
 
 ### Command:
 ```bash
@@ -215,7 +215,7 @@ Capture showing the annotated_image field (or first part of response).
 
 ---
 
-## ✅ STEP 11: Test Error Handling
+## STEP 11: Test Error Handling
 
 ### Test 11A: Invalid Confidence Threshold
 
@@ -245,7 +245,7 @@ Capture error handling.
 
 ---
 
-## ✅ STEP 12: Access Swagger UI for Interactive Testing
+## STEP 12: Access Swagger UI for Interactive Testing
 
 ### URL:
 ```
@@ -266,7 +266,7 @@ http://localhost:8000/docs
 
 ---
 
-## ✅ STEP 13: Performance Metrics Collection
+## STEP 13: Performance Metrics Collection
 
 ### Run All Tests and Record Times
 
@@ -301,11 +301,11 @@ Create a document with the following structure:
 - Port: 8000
 
 ## Test 1: Health Check
-- Status: ✅ PASS
+- Status: [OK] PASS
 - Response: {"status": "healthy", "model_loaded": true}
 
 ## Test 2: Root Endpoint
-- Status: ✅ PASS
+- Status: [OK] PASS
 - Returns: API metadata with 9 classes
 
 ## Test 3-8: Image Predictions
@@ -315,7 +315,7 @@ Create a document with the following structure:
 - Classes: One Thousand taka
 - Confidence: 0.8436, 0.8314, 0.7314
 - Processing Time: 2891.32 ms
-- Status: ✅ PASS
+- Status: [OK] PASS
 
 ### Test 4: 50 Taka
 ...
@@ -428,7 +428,7 @@ Required screenshots:
 
 ---
 
-## 🚀 Quick Command Reference
+## Quick Command Reference
 
 Copy these commands to easily run tests:
 
@@ -476,17 +476,17 @@ curl.exe -X POST -F "file=@phase1/dataset/filtered/test/images/50_1_jpg.rf.d9a68
 
 ---
 
-## ✨ Success Criteria
+## Success Criteria
 
 Your tests should demonstrate:
-- ✅ API is accessible and running
-- ✅ All endpoints respond correctly
-- ✅ Predictions are accurate (correct denominations)
-- ✅ Response format is correct
-- ✅ Multiple test images with different denominations
-- ✅ Error handling works
-- ✅ Performance is acceptable
-- ✅ Screenshots and documentation are complete
+- [OK] API is accessible and running
+- [OK] All endpoints respond correctly
+- [OK] Predictions are accurate (correct denominations)
+- [OK] Response format is correct
+- [OK] Multiple test images with different denominations
+- [OK] Error handling works
+- [OK] Performance is acceptable
+- [OK] Screenshots and documentation are complete
 
 ---
 
