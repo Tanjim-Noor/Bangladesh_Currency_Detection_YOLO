@@ -2,19 +2,22 @@
 # Bangladeshi Taka Detection API - Dockerfile
 # =============================================================================
 # Multi-stage build for optimized image size
-# Base image: Python 3.11 slim (CPU-only inference)
+# Base image: Python 3.11 on Ubuntu 24.04 LTS (better OpenCV support)
 # =============================================================================
 
 # Stage 1: Builder - Install dependencies
-FROM python:3.11-slim as builder
+FROM python:3.11-bullseye as builder
 
 WORKDIR /app
 
 # Install system dependencies for building Python packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
-    libgl1-mesa-glx \
     libglib2.0-0 \
+    libgl1-mesa-glx \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements and install Python dependencies
@@ -24,14 +27,17 @@ RUN pip install --no-cache-dir --user -r requirements.txt
 # =============================================================================
 # Stage 2: Runtime - Final slim image
 # =============================================================================
-FROM python:3.11-slim
+FROM python:3.11-bullseye
 
 WORKDIR /app
 
 # Install runtime dependencies only
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    libgl1-mesa-glx \
     libglib2.0-0 \
+    libgl1-mesa-glx \
+    libsm6 \
+    libxext6 \
+    libxrender-dev \
     curl \
     && rm -rf /var/lib/apt/lists/*
 
