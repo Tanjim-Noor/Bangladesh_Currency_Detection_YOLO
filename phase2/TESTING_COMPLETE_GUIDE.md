@@ -7,6 +7,8 @@ This guide provides complete instructions to test the Bangladeshi Taka Detection
 
 ## ✅ STEP 1: Verify Docker Container is Running
 
+> 💡 **Windows PowerShell note:** If you're running these commands in PowerShell, use `curl.exe` (instead of `curl`) to avoid PowerShell's `curl` alias interfering with flags like `-X` and `-F`. Example: `curl.exe -X POST -F "file=@path/to/image.jpg" "http://localhost:8000/predict"`.
+
 ### Command:
 ```bash
 docker-compose -f phase2/docker/docker-compose.yml ps
@@ -94,7 +96,7 @@ Capture showing API metadata returned.
 
 **Command:**
 ```bash
-curl -X POST -F "file=@phase1/dataset/filtered/test/images/1000_0_jpg.rf.ab81c647da461f1a584b3f63aad96455.jpg" "http://localhost:8000/predict?confidence_threshold=0.25" | python -m json.tool
+curl.exe -X POST -F "file=@phase1/dataset/filtered/test/images/1000_0_jpg.rf.ab81c647da461f1a584b3f63aad96455.jpg" "http://localhost:8000/predict?confidence_threshold=0.25" | python -m json.tool
 ```
 
 **What to Look For:**
@@ -114,7 +116,7 @@ Capture the complete JSON response showing detections.
 
 **Command:**
 ```bash
-curl -X POST -F "file=@phase1/dataset/filtered/test/images/50_1_jpg.rf.d9a68e13a5991deb9fc8aa8b40ebb6f3.jpg" "http://localhost:8000/predict?confidence_threshold=0.25" | python -m json.tool
+curl.exe -X POST -F "file=@phase1/dataset/filtered/test/images/50_1_jpg.rf.d9a68e13a5991deb9fc8aa8b40ebb6f3.jpg" "http://localhost:8000/predict?confidence_threshold=0.25" | python -m json.tool
 ```
 
 **What to Look For:**
@@ -132,7 +134,7 @@ Capture the response showing 50 Taka detections.
 
 **Command:**
 ```bash
-curl -X POST -F "file=@phase1/dataset/filtered/test/images/100_5_jpg.rf.41a66e15c259696166e6d943dab6a84e.jpg" "http://localhost:8000/predict?confidence_threshold=0.25" | python -m json.tool
+curl.exe -X POST -F "file=@phase1/dataset/filtered/test/images/100_5_jpg.rf.41a66e15c259696166e6d943dab6a84e.jpg" "http://localhost:8000/predict?confidence_threshold=0.25" | python -m json.tool
 ```
 
 **What to Look For:**
@@ -149,7 +151,7 @@ Capture showing 100 Taka predictions.
 
 **Command:**
 ```bash
-curl -X POST -F "file=@phase1/dataset/filtered/test/images/500_2_jpg.rf.9537954b6dddfaf25935c2483322ce1f.jpg" "http://localhost:8000/predict?confidence_threshold=0.25" | python -m json.tool
+curl.exe -X POST -F "file=@phase1/dataset/filtered/test/images/500_2_jpg.rf.9537954b6dddfaf25935c2483322ce1f.jpg" "http://localhost:8000/predict?confidence_threshold=0.25" | python -m json.tool
 ```
 
 **What to Look For:**
@@ -166,7 +168,7 @@ Capture 500 Taka results.
 
 **Command:**
 ```bash
-curl -X POST -F "file=@phase1/dataset/filtered/test/images/5_6_jpg.rf.519666840f96377378e52073ee7eea9a.jpg" "http://localhost:8000/predict?confidence_threshold=0.25" | python -m json.tool
+curl.exe -X POST -F "file=@phase1/dataset/filtered/test/images/5_6_jpg.rf.519666840f96377378e52073ee7eea9a.jpg" "http://localhost:8000/predict?confidence_threshold=0.25" | python -m json.tool
 ```
 
 **What to Look For:**
@@ -183,7 +185,7 @@ Capture 5 Taka detection results.
 
 **Command:**
 ```bash
-curl -X POST -F "file=@phase1/dataset/filtered/test/images/10_12_jpg.rf.77efb45bc8a1826ab805fd6112b23fdb.jpg" "http://localhost:8000/predict?confidence_threshold=0.25" | python -m json.tool
+curl.exe -X POST -F "file=@phase1/dataset/filtered/test/images/10_12_jpg.rf.77efb45bc8a1826ab805fd6112b23fdb.jpg" "http://localhost:8000/predict?confidence_threshold=0.25" | python -m json.tool
 ```
 
 **What to Look For:**
@@ -200,7 +202,7 @@ Capture 10 Taka results.
 
 ### Command:
 ```bash
-curl -X POST -F "file=@phase1/dataset/filtered/test/images/50_1_jpg.rf.d9a68e13a5991deb9fc8aa8b40ebb6f3.jpg" "http://localhost:8000/predict?confidence_threshold=0.25&annotated_image=true" | python -m json.tool
+curl.exe -X POST -F "file=@phase1/dataset/filtered/test/images/50_1_jpg.rf.d9a68e13a5991deb9fc8aa8b40ebb6f3.jpg" "http://localhost:8000/predict?confidence_threshold=0.25&annotated_image=true" | python -m json.tool
 ```
 
 ### What to Look For:
@@ -219,7 +221,7 @@ Capture showing the annotated_image field (or first part of response).
 
 **Command:**
 ```bash
-curl -X POST -F "file=@phase1/dataset/filtered/test/images/1000_0_jpg.rf.ab81c647da461f1a584b3f63aad96455.jpg" "http://localhost:8000/predict?confidence_threshold=1.5"
+curl.exe -X POST -F "file=@phase1/dataset/filtered/test/images/1000_0_jpg.rf.ab81c647da461f1a584b3f63aad96455.jpg" "http://localhost:8000/predict?confidence_threshold=1.5"
 ```
 
 **Expected:** Error response for invalid threshold
@@ -233,7 +235,7 @@ Capture error response.
 
 **Command:**
 ```bash
-curl -X POST -F "file=@nonexistent.jpg" "http://localhost:8000/predict"
+curl.exe -X POST -F "file=@nonexistent.jpg" "http://localhost:8000/predict"
 ```
 
 **Expected:** Error about file not found
@@ -432,31 +434,31 @@ Copy these commands to easily run tests:
 
 ```bash
 # Health check
-curl http://localhost:8000/health
+curl.exe http://localhost:8000/health
 
 # Root endpoint
-curl http://localhost:8000/
+curl.exe http://localhost:8000/
 
 # Test 1: 1000 Taka
-curl -X POST -F "file=@phase1/dataset/filtered/test/images/1000_0_jpg.rf.ab81c647da461f1a584b3f63aad96455.jpg" "http://localhost:8000/predict?confidence_threshold=0.25" | python -m json.tool
+curl.exe -X POST -F "file=@phase1/dataset/filtered/test/images/1000_0_jpg.rf.ab81c647da461f1a584b3f63aad96455.jpg" "http://localhost:8000/predict?confidence_threshold=0.25" | python -m json.tool
 
 # Test 2: 50 Taka
-curl -X POST -F "file=@phase1/dataset/filtered/test/images/50_1_jpg.rf.d9a68e13a5991deb9fc8aa8b40ebb6f3.jpg" "http://localhost:8000/predict" | python -m json.tool
+curl.exe -X POST -F "file=@phase1/dataset/filtered/test/images/50_1_jpg.rf.d9a68e13a5991deb9fc8aa8b40ebb6f3.jpg" "http://localhost:8000/predict" | python -m json.tool
 
 # Test 3: 100 Taka
-curl -X POST -F "file=@phase1/dataset/filtered/test/images/100_5_jpg.rf.41a66e15c259696166e6d943dab6a84e.jpg" "http://localhost:8000/predict" | python -m json.tool
+curl.exe -X POST -F "file=@phase1/dataset/filtered/test/images/100_5_jpg.rf.41a66e15c259696166e6d943dab6a84e.jpg" "http://localhost:8000/predict" | python -m json.tool
 
 # Test 4: 500 Taka
-curl -X POST -F "file=@phase1/dataset/filtered/test/images/500_2_jpg.rf.9537954b6dddfaf25935c2483322ce1f.jpg" "http://localhost:8000/predict" | python -m json.tool
+curl.exe -X POST -F "file=@phase1/dataset/filtered/test/images/500_2_jpg.rf.9537954b6dddfaf25935c2483322ce1f.jpg" "http://localhost:8000/predict" | python -m json.tool
 
 # Test 5: 5 Taka
-curl -X POST -F "file=@phase1/dataset/filtered/test/images/5_6_jpg.rf.519666840f96377378e52073ee7eea9a.jpg" "http://localhost:8000/predict" | python -m json.tool
+curl.exe -X POST -F "file=@phase1/dataset/filtered/test/images/5_6_jpg.rf.519666840f96377378e52073ee7eea9a.jpg" "http://localhost:8000/predict" | python -m json.tool
 
 # Test 6: 10 Taka
-curl -X POST -F "file=@phase1/dataset/filtered/test/images/10_12_jpg.rf.77efb45bc8a1826ab805fd6112b23fdb.jpg" "http://localhost:8000/predict" | python -m json.tool
+curl.exe -X POST -F "file=@phase1/dataset/filtered/test/images/10_12_jpg.rf.77efb45bc8a1826ab805fd6112b23fdb.jpg" "http://localhost:8000/predict" | python -m json.tool
 
 # Test with annotation
-curl -X POST -F "file=@phase1/dataset/filtered/test/images/50_1_jpg.rf.d9a68e13a5991deb9fc8aa8b40ebb6f3.jpg" "http://localhost:8000/predict?annotated_image=true" | python -m json.tool
+curl.exe -X POST -F "file=@phase1/dataset/filtered/test/images/50_1_jpg.rf.d9a68e13a5991deb9fc8aa8b40ebb6f3.jpg" "http://localhost:8000/predict?annotated_image=true" | python -m json.tool
 
 # Open Swagger UI
 # http://localhost:8000/docs
